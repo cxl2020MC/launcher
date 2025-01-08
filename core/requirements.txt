@@ -2,5 +2,5 @@ pywebview
 aiohttp
 httpx
 furl
-fastapi
+fastapi[uvicorn]
 DownloadKit

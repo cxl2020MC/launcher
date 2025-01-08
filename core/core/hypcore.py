@@ -6,9 +6,9 @@ client = httpx.AsyncClient()
 
 
 def get_hyp_api_url(区服: str, api: str) -> str:
-    if 区服 == '国服':
+    if 区服 == "国服":
         host = "hyp-api.mihoyo.com"
-    elif 区服 == '国际服':
+    elif 区服 == "国际服":
         host = "sg-hyp-api.hoyolab.com"
     else:
         raise Exception("不支持的启动器")
@@ -17,10 +17,16 @@ def get_hyp_api_url(区服: str, api: str) -> str:
 
 
 def get_launcher_id(区服: str) -> str:
-    if 区服 == '国服':
+    if 区服 == "国服":
         return "jGHBHlcOq1"
-    elif 区服 == '国际服':
+    elif 区服 == "国际服":
         return "VYTpXlbWo8"
+    elif 区服 == "B服原神":
+        return "umfgRO5gh5"
+    elif 区服 == "B服星铁":
+        return "6P5gHMNyK3"
+    elif 区服 == "B服绝区零":
+        return "xV0f4r1GT0"
     else:
         raise Exception("不支持的启动器")
 
@@ -122,11 +128,10 @@ async def 获取游戏配置(区服, game: str, language="zh-cn") -> dict:
 
 
 if __name__ == "__main__":
+    import json
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     # x6znKlJ0xK
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     data = asyncio.run(获取游戏安装包信息("国服", "崩坏星穹铁道"))
     print(data)
-    from DownloadKit import DownloadKit
-    download = DownloadKit()
-    download.download(data['main']['major']['game_pkgs'][0]['url'])
+    print(json.dumps(data, indent=4, ensure_ascii=False))
