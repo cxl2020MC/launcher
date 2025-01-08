@@ -1,5 +1,5 @@
 import asyncio
-from core import hypdata
+from core import hypcore
 
 
-asyncio.run(hypdata.更新游戏缓存())
+asyncio.run(hypcore.更新游戏缓存())

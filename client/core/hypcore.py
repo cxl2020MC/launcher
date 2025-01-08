@@ -1,6 +1,8 @@
 # import aiohttp
 import asyncio
 import httpx
+import json
+from . import config
 
 
 client = httpx.AsyncClient()
@@ -33,16 +35,17 @@ def get_launcher_id(区服: str) -> str:
 
 
 def get_game_id(game: str) -> str:
-    if game == "原神":
-        return "1Z8W5NHUQb"
-    elif game == "绝区零":
-        return "x6znKlJ0xK"
-    elif game == "崩坏星穹铁道":
-        return "64kMb5iAWu"
-    elif game == "崩坏3":
-        return "osvnlOc0S8"
-    else:
-        raise Exception("不支持的游戏")
+    # if game == "原神":
+    #     return "1Z8W5NHUQb"
+    # elif game == "绝区零":
+    #     return "x6znKlJ0xK"
+    # elif game == "崩坏星穹铁道":
+    #     return "64kMb5iAWu"
+    # elif game == "崩坏3":
+    #     return "osvnlOc0S8"
+    # else:
+    #     raise Exception("不支持的游戏")
+    pass
 
 
 def get_hyp_api_params(区服: str = "国服", language: str = "zh-cn") -> dict:
@@ -126,6 +129,15 @@ async def 获取游戏配置(区服, game: str, language="zh-cn") -> dict:
     params["game_id"] = game
     resp = await client.get(url, params=params)
     return resp.json()
+
+
+async def 更新游戏缓存():
+    data = await 获取全部游戏("国服")
+    with open(config.data_dir / "cn_games.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    return data
+
+
 
 
 if __name__ == "__main__":
