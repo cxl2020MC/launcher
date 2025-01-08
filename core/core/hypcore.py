@@ -72,6 +72,7 @@ async def 获取游戏(区服, game: str, language="zh-cn") -> dict:
     params = get_hyp_api_params(区服, language)
     params["game_id"] = get_game_id(game)
     resp = await client.get(url, params=params)
+    return resp.json()
 
 
 async def 获取游戏基本信息(区服, game: str, language="zh-cn") -> dict:
