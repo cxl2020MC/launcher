@@ -2,7 +2,7 @@
 import asyncio
 import httpx
 import json
-from . import config
+from pathlib import Path
 
 
 client = httpx.AsyncClient()
@@ -34,7 +34,7 @@ def get_launcher_id(区服: str) -> str:
         raise Exception("不支持的启动器")
 
 
-def get_game_id(game: str) -> str:
+async def get_game_id(区服: str, game: str) -> str:
     # if game == "原神":
     #     return "1Z8W5NHUQb"
     # elif game == "绝区零":
@@ -45,7 +45,13 @@ def get_game_id(game: str) -> str:
     #     return "osvnlOc0S8"
     # else:
     #     raise Exception("不支持的游戏")
-    pass
+    data = await 获取全部游戏(区服)
+    for i in data["data"]["games"]:
+        if i["biz"] == game:
+            return i["id"]
+    raise Exception("不支持的游戏")
+
+
 
 
 def get_hyp_api_params(区服: str = "国服", language: str = "zh-cn") -> dict:
@@ -60,7 +66,7 @@ def get_hyp_api_params(区服: str = "国服", language: str = "zh-cn") -> dict:
 async def 获取游戏内容(区服, game: str, language: str = "zh-cn") -> dict:
     url = get_hyp_api_url(区服, "getGameContent")
     params = get_hyp_api_params(区服, language)
-    params["game_id"] = get_game_id(game)
+    params["game_id"] = await get_game_id(区服, game)
     resp = await client.get(url, params=params)
     return resp.json()
 
@@ -80,7 +86,7 @@ async def 获取全部游戏基本信息(区服, language="zh-cn") -> dict:
 async def 获取游戏(区服, game: str, language="zh-cn") -> dict:
     url = get_hyp_api_url(区服, "getGames")
     params = get_hyp_api_params(区服, language)
-    params["game_id"] = get_game_id(game)
+    params["game_id"] = await get_game_id(区服, game)
     resp = await client.get(url, params=params)
     return resp.json()
 
@@ -88,7 +94,7 @@ async def 获取游戏(区服, game: str, language="zh-cn") -> dict:
 async def 获取游戏基本信息(区服, game: str, language="zh-cn") -> dict:
     url = get_hyp_api_url(区服, "getAllGameBasicInfo")
     params = get_hyp_api_params(区服, language)
-    params["game_id"] = get_game_id(game)
+    params["game_id"] = await get_game_id(区服, game)
     resp = await client.get(url, params=params)
     return resp.json()
 
@@ -101,7 +107,7 @@ async def 获取全部游戏安装包信息(区服, language="zh-cn") -> dict:
 
 async def 获取游戏安装包信息(区服, game: str, language="zh-cn") -> dict | None:
     ret_data = await 获取全部游戏安装包信息(区服, language)
-    game_id = get_game_id(game)
+    game_id = await get_game_id(区服, game)
     for i in ret_data["data"]["game_packages"]:
         if i["game"]["id"] == game_id:
             return i
@@ -131,20 +137,11 @@ async def 获取游戏配置(区服, game: str, language="zh-cn") -> dict:
     return resp.json()
 
 
-async def 更新游戏缓存():
-    data = await 获取全部游戏("国服")
-    with open(config.data_dir / "cn_games.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-    return data
-
-
-
-
 if __name__ == "__main__":
     import json
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     # x6znKlJ0xK
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
-    data = asyncio.run(获取游戏安装包信息("国服", "崩坏星穹铁道"))
-    print(data)
+    data = asyncio.run(获取游戏安装包信息("国服", "nap_cn"))
+    # print(data)
     print(json.dumps(data, indent=4, ensure_ascii=False))
