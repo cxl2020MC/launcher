@@ -2,9 +2,10 @@ import webview
 
 
 def custom_logic(window):
-    window.evaluate_js('alert("Nice one brother")')
+    # window.evaluate_js('alert("Nice one brother")')
+    pass
 
 
-window = webview.create_window('Woah dude!', html='<h1>Woah dude!<h1>')
+window = webview.create_window('Woah dude!', html='')
 webview.start(custom_logic, (window,),  gui="gtk")
 

@@ -123,4 +123,4 @@ if __name__ == "__main__":
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     # x6znKlJ0xK
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
-    print(asyncio.run(获取游戏内容("国服")))
+    print(asyncio.run(获取游戏内容("国服", "原神")))
