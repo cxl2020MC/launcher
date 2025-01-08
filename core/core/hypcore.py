@@ -89,8 +89,9 @@ async def 获取全部游戏安装包信息(区服, language="zh-cn") -> dict:
     return resp.json()
 
 
-async def 获取游戏安装包信息(区服, game_id: str, language="zh-cn") -> dict | None:
+async def 获取游戏安装包信息(区服, game: str, language="zh-cn") -> dict | None:
     ret_data = await 获取全部游戏安装包信息(区服, language)
+    game_id = get_game_id(game)
     for i in ret_data["data"]["game_packages"]:
         if i["game"]["id"] == game_id:
             return i
@@ -124,4 +125,8 @@ if __name__ == "__main__":
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     # x6znKlJ0xK
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
-    print(asyncio.run(获取游戏内容("国服", "原神")))
+    data = asyncio.run(获取游戏安装包信息("国服", "崩坏星穹铁道"))
+    print(data)
+    from DownloadKit import DownloadKit
+    download = DownloadKit()
+    download.download(data['main']['major']['game_pkgs'][0]['url'])
