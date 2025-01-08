@@ -2,6 +2,7 @@
 import asyncio
 import httpx
 
+
 client = httpx.AsyncClient()
 
 
