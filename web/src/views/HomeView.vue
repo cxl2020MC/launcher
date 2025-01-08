@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
-const game = ref<T>({})
+const game = ref(null)
 fetch('http://localhost:8000/get_all_games')
   .then(response => response.json())
   .then(data => game.value = data)
