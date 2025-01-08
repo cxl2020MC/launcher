@@ -1,0 +1,4 @@
+pywebview
+aiohttp
+httpx
+furl
