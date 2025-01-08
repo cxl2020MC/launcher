@@ -2,3 +2,4 @@ pywebview
 aiohttp
 httpx
 furl
+fastapi
