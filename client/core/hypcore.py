@@ -49,8 +49,8 @@ def get_launcher_id(laucher: str) -> str:
             raise Exception("不支持的启动器")
 
 
-def 获取启动器id_url(laucher: str) -> tuple[str, str]:
-    return get_hyp_api_url(laucher, "getGameContent"), get_launcher_id(laucher)
+def get_laucher_data(laucher: str) -> dict:
+    return {}
 
 
 async def get_game_id(laucher: str, game: str) -> str:
