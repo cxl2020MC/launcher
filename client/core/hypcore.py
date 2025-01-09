@@ -48,6 +48,7 @@ def get_launcher_id(laucher: str) -> str:
         case _:
             raise Exception("不支持的启动器")
 
+
 def 获取启动器id_url(laucher: str) -> tuple[str, str]:
     return get_hyp_api_url(laucher, "getGameContent"), get_launcher_id(laucher)
 
@@ -68,8 +69,6 @@ async def get_game_id(laucher: str, game: str) -> str:
         if i["biz"] == game:
             return i["id"]
     raise Exception("不支持的游戏")
-
-
 
 
 def get_hyp_api_params(laucher: str = "国服", language: str = "zh-cn") -> dict:
@@ -154,6 +153,7 @@ async def 获取游戏依赖(laucher, game: str, language="zh-cn") -> dict:
     resp = await client.get(url, params=params)
     log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
+
 
 async def 获取游戏配置(laucher, game: str, language="zh-cn") -> dict:
     url = get_hyp_api_url(laucher, "getGameConfigs")
