@@ -42,8 +42,7 @@ body {
 a {
     text-decoration: none;
     color: var(--color-text);
-    transition: 0.4s;
-    padding: 3px;
+    transition: color 0.3s;
 }
 
 a:hover {
@@ -68,14 +67,3 @@ button {
 button:hover {
     color: var(--color-heading);
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: var(--color-heading);
-}
-
-h1 {}

@@ -3,17 +3,23 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import type { get_all_games } from '@/interface/get_all_games';
 
-const game = ref<null | get_all_games>(null)
-fetch('http://localhost:8000/get_all_games')
-  .then(response => response.json())
-  .then(data => game.value = data)
+const game_list = ref<{ area: string, data: get_all_games }[]>([])
+async function get_All_Game(area: string = '国服') {
+  const res = await fetch(`http://localhost:8000/get_all_games?area=${area}`)
+  const data = await res.json() as get_all_games
+  game_list.value.push({ area: area, data: data })
+}
+get_All_Game()
+get_All_Game("国际服")
 </script>
 
 <template>
   <main>
-    <div class="game-list">
-      <template v-if="game">
-        <RouterLink :to="'/game/'+game.id" v-for="game in game.data.games" :key="game.id"
+    <h1>游戏列表</h1>
+    <template v-for="games in game_list" :key="games.area">
+      <h2>{{ games.area }}</h2>
+      <div class="game-list">
+        <RouterLink :to="'/game/' + game.id" v-for="game in games.data.data.games" :key="game.id"
           :title="'点击进入 ' + game.display.name">
           <div class="game">
             <div class="game-info-img">
@@ -23,8 +29,9 @@ fetch('http://localhost:8000/get_all_games')
             <!-- <h2>{{ game.display.name }}</h2> -->
           </div>
         </RouterLink>
-      </template>
-    </div>
+      </div>
+    </template>
+
   </main>
 </template>
 

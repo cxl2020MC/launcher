@@ -10,29 +10,46 @@ client = httpx.AsyncClient()
 
 
 def get_hyp_api_url(laucher: str, api: str) -> str:
-    if laucher == "国服":
-        host = "hyp-api.mihoyo.com"
-    elif laucher == "国际服":
-        host = "sg-hyp-api.hoyolab.com"
-    else:
-        raise Exception("不支持的启动器")
+    match laucher:
+        case "国服":
+            host = "hyp-api.mihoyo.com"
+        case "国际服":
+            host = "sg-hyp-api.hoyoverse.com"
+        case _:
+            raise Exception("不支持的启动器")
     url = f"https://{host}/hyp/hyp-connect/api/{api}"
     return url
 
 
 def get_launcher_id(laucher: str) -> str:
-    if laucher == "国服":
-        return "jGHBHlcOq1"
-    elif laucher == "国际服":
-        return "VYTpXlbWo8"
-    elif laucher == "B服原神":
-        return "umfgRO5gh5"
-    elif laucher == "B服星铁":
-        return "6P5gHMNyK3"
-    elif laucher == "B服绝区零":
-        return "xV0f4r1GT0"
-    else:
-        raise Exception("不支持的启动器")
+    # if laucher == "国服":
+    #     return "jGHBHlcOq1"
+    # elif laucher == "国际服":
+    #     return "VYTpXlbWo8"
+    # elif laucher == "B服原神":
+    #     return "umfgRO5gh5"
+    # elif laucher == "B服星铁":
+    #     return "6P5gHMNyK3"
+    # elif laucher == "B服绝区零":
+    #     return "xV0f4r1GT0"
+    # else:
+    #     raise Exception("不支持的启动器")
+    match laucher:
+        case "国服":
+            return "jGHBHlcOq1"
+        case "国际服":
+            return "VYTpXlbWo8"
+        case "B服原神":
+            return "umfgRO5gh5"
+        case "B服星铁":
+            return "6P5gHMNyK3"
+        case "B服绝区零":
+            return "xV0f4r1GT0"
+        case _:
+            raise Exception("不支持的启动器")
+
+def 获取启动器id_url(laucher: str) -> tuple[str, str]:
+    return get_hyp_api_url(laucher, "getGameContent"), get_launcher_id(laucher)
 
 
 async def get_game_id(laucher: str, game: str) -> str:
