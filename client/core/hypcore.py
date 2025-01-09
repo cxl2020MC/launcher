@@ -2,7 +2,8 @@
 import asyncio
 import httpx
 import json
-from pathlib import Path
+from .log import logger as log
+from . import models
 
 
 client = httpx.AsyncClient()
@@ -63,23 +64,26 @@ def get_hyp_api_params(laucher: str = "国服", language: str = "zh-cn") -> dict
 
 
 # https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGameContent?launcher_id=jGHBHlcOq1&game_id=1Z8W5NHUQb&language=zh-cn
-async def 获取游戏内容(laucher, game: str, language: str = "zh-cn") -> dict:
+async def 获取游戏内容(laucher, game: str, language: str = "zh-cn") -> models.游戏内容:
     url = get_hyp_api_url(laucher, "getGameContent")
     params = get_hyp_api_params(laucher, language)
     params["game_id"] = await get_game_id(laucher, game)
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
 async def 获取全部游戏(laucher, language="zh-cn"):
     url = get_hyp_api_url(laucher, "getGames")
     resp = await client.get(url, params=get_hyp_api_params(laucher, language))
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
 async def 获取全部游戏基本信息(laucher, language="zh-cn") -> dict:
     url = get_hyp_api_url(laucher, "getAllGameBasicInfo")
     resp = await client.get(url, params=get_hyp_api_params(laucher, language))
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
@@ -88,6 +92,7 @@ async def 获取游戏(laucher, game: str, language="zh-cn") -> dict:
     params = get_hyp_api_params(laucher, language)
     params["game_id"] = await get_game_id(laucher, game)
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
@@ -96,12 +101,14 @@ async def 获取游戏基本信息(laucher, game: str, language="zh-cn") -> dict
     params = get_hyp_api_params(laucher, language)
     params["game_id"] = await get_game_id(laucher, game)
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
 async def 获取全部游戏安装包信息(laucher, language="zh-cn") -> dict:
     url = get_hyp_api_url(laucher, "getGamePackages")
     resp = await client.get(url, params=get_hyp_api_params(laucher, language))
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
@@ -118,6 +125,7 @@ async def 获取多个游戏安装包信息(laucher, game_ids: list[str], langua
     params = get_hyp_api_params(laucher, language)
     params["game_ids"] = game_ids
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
@@ -127,6 +135,7 @@ async def 获取游戏依赖(laucher, game: str, language="zh-cn") -> dict:
     params = get_hyp_api_params(laucher, language)
     params["game_id"] = game
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 async def 获取游戏配置(laucher, game: str, language="zh-cn") -> dict:
@@ -134,6 +143,7 @@ async def 获取游戏配置(laucher, game: str, language="zh-cn") -> dict:
     params = get_hyp_api_params(laucher, language)
     params["game_id"] = game
     resp = await client.get(url, params=params)
+    log.debug(f"发送请求: {resp.url} 请求结果: {resp.text}")
     return resp.json()
 
 
@@ -142,6 +152,6 @@ if __name__ == "__main__":
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
     # x6znKlJ0xK
     # print(asyncio.run(获取游戏配置("国服", "1Z8W5NHUQb")))
-    data = asyncio.run(获取游戏安装包信息("国服", "nap_cn"))
+    data = asyncio.run(获取游戏内容("国服", "nap_cn"))
     # print(data)
     print(json.dumps(data, indent=4, ensure_ascii=False))

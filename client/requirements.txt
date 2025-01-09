@@ -4,3 +4,5 @@ httpx
 furl
 fastapi[uvicorn]
 DownloadKit
+loguru
+pydantic
