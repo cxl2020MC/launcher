@@ -13,7 +13,7 @@ const toggleMenu = () => {
 <template>
   <header>
     <nav>
-      <RouterLink to="/" id="home">
+      <RouterLink to="/" id="home" title="首页">
         <Icon icon="line-md:home-alt-twotone" />
       </RouterLink>
     </nav>
