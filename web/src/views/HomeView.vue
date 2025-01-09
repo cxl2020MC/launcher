@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { useRoute,RouterLink } from 'vue-router'
 import type { get_all_games } from '@/interface/get_all_games';
+
+const route = useRoute()
+let api_host = 'localhost:8000'
+if (route.params.api_host) {
+  api_host = api_host = Array.isArray(route.params.api_host) ? route.params.api_host[0] : route.params.api_host
+}
 
 const game_list = ref<{ area: string, data: get_all_games }[]>([])
 async function get_All_Game(area: string = '国服') {
-  const res = await fetch(`http://localhost:8000/get_all_games?area=${area}`)
+  const res = await fetch(`http://${api_host}/get_all_games?area=${area}`)
   const data = await res.json() as get_all_games
   game_list.value.push({ area: area, data: data })
 }
