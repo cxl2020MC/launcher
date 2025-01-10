@@ -9,8 +9,8 @@ from . import models
 client = httpx.AsyncClient()
 
 
-def get_hyp_api_url(laucher: str, api: str) -> str:
-    match laucher:
+def get_hyp_api_url(area: str, api: str) -> str:
+    match area:
         case "国服":
             host = "hyp-api.mihoyo.com"
         case "国际服":
@@ -22,18 +22,6 @@ def get_hyp_api_url(laucher: str, api: str) -> str:
 
 
 def get_launcher_id(laucher: str) -> str:
-    # if laucher == "国服":
-    #     return "jGHBHlcOq1"
-    # elif laucher == "国际服":
-    #     return "VYTpXlbWo8"
-    # elif laucher == "B服原神":
-    #     return "umfgRO5gh5"
-    # elif laucher == "B服星铁":
-    #     return "6P5gHMNyK3"
-    # elif laucher == "B服绝区零":
-    #     return "xV0f4r1GT0"
-    # else:
-    #     raise Exception("不支持的启动器")
     match laucher:
         case "国服":
             return "jGHBHlcOq1"
