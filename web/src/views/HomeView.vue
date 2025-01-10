@@ -30,7 +30,8 @@ get_All_Game("国际服")
           <div class="game">
             <div class="game-info-img">
               <img class="game-info-icon-img" :src="game.display.icon.url" :art="game.biz">
-              <img class="game-info-logo-img" :src="game.display.thumbnail.url" :art="game.biz">
+              <img class="game-info-thumbnail-img" :src="game.display.thumbnail.url" :art="game.biz">
+              <img class="game-info-logo-img" :src="game.display.logo.url" :art="game.biz">
             </div>
             <!-- <h2>{{ game.display.name }}</h2> -->
           </div>
@@ -65,14 +66,21 @@ get_All_Game("国际服")
   position: relative;
 }
 
-.game .game-info-logo-img {
+.game .game-info-thumbnail-img {
   width: 100%;
   transition: scale 0.3s ease-in-out;
   overflow: hidden;
 }
 
-.game:hover .game-info-logo-img {
+.game:hover .game-info-thumbnail-img {
   scale: 1.1;
+}
+
+.game .game-info-logo-img {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .game .game-info-icon-img {
